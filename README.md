@@ -10,3 +10,6 @@ CREATE TABLE `pembelian_obat` (
   `status` varchar(20) DEFAULT 'sukses',
   `kode_transaksi` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+ALTER TABLE pemesanan_online 
+MODIFY status_pemesanan ENUM('menunggu','sudah bayar','diproses','selesai','batal');
