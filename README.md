@@ -22,3 +22,7 @@ ADD COLUMN status_pembayaran ENUM('belum_bayar','lunas') DEFAULT 'belum_bayar' A
 
 ALTER TABLE pemesanan_offline 
 ADD COLUMN total_biaya DECIMAL(15,2) DEFAULT 0 AFTER biaya_jasa;
+
+
+
+ALTER TABLE chat ADD COLUMN pengirim ENUM('dokter', 'pemilik') NOT NULL;
