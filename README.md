@@ -26,3 +26,5 @@ ADD COLUMN total_biaya DECIMAL(15,2) DEFAULT 0 AFTER biaya_jasa;
 
 
 ALTER TABLE chat ADD COLUMN pengirim ENUM('dokter', 'pemilik') NOT NULL;
+UPDATE chat SET pengirim = 'dokter' WHERE id_dokter IS NOT NULL AND id_pemilik IS NOT NULL;
+UPDATE chat SET pengirim = 'pemilik' WHERE id_pemilik IS NOT NULL AND id_dokter IS NOT NULL;
