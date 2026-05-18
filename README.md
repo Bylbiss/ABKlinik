@@ -23,8 +23,15 @@ ADD COLUMN status_pembayaran ENUM('belum_bayar','lunas') DEFAULT 'belum_bayar' A
 ALTER TABLE pemesanan_offline 
 ADD COLUMN total_biaya DECIMAL(15,2) DEFAULT 0 AFTER biaya_jasa;
 
-
-
+//buncis bosok
+// masukin ini dulu jangsn langsung semuanya, soale gak nyambung
 ALTER TABLE chat ADD COLUMN pengirim ENUM('dokter', 'pemilik') NOT NULL;
 UPDATE chat SET pengirim = 'dokter' WHERE id_dokter IS NOT NULL AND id_pemilik IS NOT NULL;
 UPDATE chat SET pengirim = 'pemilik' WHERE id_pemilik IS NOT NULL AND id_dokter IS NOT NULL;
+
+// baru masukin ini
+-- Update chat yang memiliki id_pemilik (berarti dari pemilik)
+UPDATE chat SET pengirim = 'pemilik' WHERE id_pemilik IS NOT NULL AND (pengirim IS NULL OR pengirim = '');
+
+-- Update chat yang memiliki id_dokter (berarti dari dokter)
+UPDATE chat SET pengirim = 'dokter' WHERE id_dokter IS NOT NULL AND (pengirim IS NULL OR pengirim = '');
