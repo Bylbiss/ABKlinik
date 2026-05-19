@@ -1,37 +1,11 @@
-## Nambah database baru
+## ABPawClinic
 
-CREATE UNIQUE INDEX IF NOT EXISTS unique_username ON dokter (username);
+AB Paw Klinik Hewan adalah aplikasi desktop berbasis Java dan MySQL yang digunakan untuk mengelola operasional klinik hewan secara terintegrasi. Aplikasi ini memiliki tiga jenis pengguna: Admin, Dokter, dan Pemilik Hewan.
 
-CREATE UNIQUE INDEX IF NOT EXISTS unique_username ON admin (username);
+Pemilik Hewan dapat melakukan registrasi akun beserta data hewan peliharaannya. Setelah login, pemilik dapat memilih dokter berdasarkan spesialisasi atau harga, melakukan konsultasi online dengan pilihan "Pesan Sekarang" (langsung chat setelah bayar) atau "Pesan Nanti" (menentukan jadwal). Pemilik juga bisa booking antrean offline, membeli obat (dengan/tanpa resep), melihat riwayat semua transaksi, serta mengelola profil dan data hewan peliharaannya.
 
-CREATE UNIQUE INDEX IF NOT EXISTS unique_username ON pemilik (username);
-CREATE UNIQUE INDEX IF NOT EXISTS unique_email ON pemilik (email);
+Dokter memiliki fitur chat realtime dengan pasien, mengupdate status pemesanan (menunggu, diproses, selesai, batal), mengisi biaya jasa untuk pemeriksaan offline, serta membuat resep obat (online maupun offline) yang otomatis masuk ke pembelian obat pemilik.
 
-ALTER TABLE alergi_pet MODIFY id_obat INT NULL;
+Admin bertugas mengelola data dokter dan pemilik, mengelola kupon diskon, serta melihat berbagai laporan seperti laporan pemesanan online/offline, pendapatan per dokter (rinci online & offline), dan laporan penjualan obat.
 
-ALTER TABLE resep_obat 
-MODIFY COLUMN status ENUM('belum_diproses','diproses','selesai','batal','diambil') 
-NOT NULL DEFAULT 'belum_diproses';
-
-//ipeh
-ALTER TABLE pemesanan_offline 
-ADD COLUMN biaya_jasa DECIMAL(15,2) DEFAULT 0 AFTER keluhan;
-
-ALTER TABLE pemesanan_offline 
-ADD COLUMN status_pembayaran ENUM('belum_bayar','lunas') DEFAULT 'belum_bayar' AFTER status_antrean;
-
-ALTER TABLE pemesanan_offline 
-ADD COLUMN total_biaya DECIMAL(15,2) DEFAULT 0 AFTER biaya_jasa;
-
-//buncis bosok
-// masukin ini dulu jangsn langsung semuanya, soale gak nyambung
-ALTER TABLE chat ADD COLUMN pengirim ENUM('dokter', 'pemilik') NOT NULL;
-UPDATE chat SET pengirim = 'dokter' WHERE id_dokter IS NOT NULL AND id_pemilik IS NOT NULL;
-UPDATE chat SET pengirim = 'pemilik' WHERE id_pemilik IS NOT NULL AND id_dokter IS NOT NULL;
-
-// baru masukin ini
--- Update chat yang memiliki id_pemilik (berarti dari pemilik)
-UPDATE chat SET pengirim = 'pemilik' WHERE id_pemilik IS NOT NULL AND (pengirim IS NULL OR pengirim = '');
-
--- Update chat yang memiliki id_dokter (berarti dari dokter)
-UPDATE chat SET pengirim = 'dokter' WHERE id_dokter IS NOT NULL AND (pengirim IS NULL OR pengirim = '');
+Aplikasi ini memiliki fitur keamanan  yang mencakup data admin, dokter, pemilik, hewan, pemesanan online & offline, pembelian obat, resep, kupon, chat, alergi, dan detail resep.
