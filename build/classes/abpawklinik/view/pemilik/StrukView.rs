@@ -1,0 +1,1 @@
+abpaw.view.pemilik.StrukView
